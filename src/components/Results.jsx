@@ -6,12 +6,13 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { fetchResult } from "../services/quiz";
 import { useQuery } from "@tanstack/react-query";
 import { getTimeDifferenceInMinutes } from "../utils/testSession";
+import BackDropLoader from "./BackDropLoader";
 
 export default function Results() {
   const navigate = useNavigate();
   const sessionId = useParams(({ sessionId }) => sessionId);
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["sessionResult"],
     queryFn: async () => {
       try {
@@ -218,6 +219,7 @@ export default function Results() {
           </Grid>
         </Box>
       </Container>
+      {isPending ? <BackDropLoader /> : null}
     </div>
   );
 }
