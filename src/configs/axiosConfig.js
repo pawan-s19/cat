@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
 
-const BASE_URL = "http://localhost:3001/api";
+const BASE_URL = "https://catapi-8mib.onrender.com/api";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
