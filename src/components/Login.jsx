@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";
+import BackDropLoader from "./BackDropLoader";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function Login() {
     },
   });
 
-  const { mutate: getGProfileDets } = useMutation({
+  const { mutate: getGProfileDets, isPending } = useMutation({
     mutationFn: getGoogleProfile,
     onSuccess: ({ data }) => {
       const profileData = data;
@@ -112,6 +113,7 @@ export default function Login() {
       <Link to="/dashboard" className="mt-4 text-white hover:underline">
         Go to Dashboard
       </Link>
+      {isPending ? <BackDropLoader /> : null}
     </div>
   );
 }
