@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import TaskIcon from "@mui/icons-material/Task";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import BackDropLoader from "./BackDropLoader";
 
 export default function Quiz() {
   const navigate = useNavigate();
@@ -15,15 +16,18 @@ export default function Quiz() {
   const [selected, setSelected] = useState(0);
   const [testComplete, setTestComplete] = useState(false);
   const [questionNumber, setQuestionNumber] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const fetchNextQuestion = async () => {
     try {
+      setLoading(true);
       const sessionId = getSessionId();
       const { data } = await fetchQuestion({
         correct: isCorrect(selected, correct),
         currQuestionId: question?._id,
         sessionId,
       });
+      setLoading(false);
       if (data.testCompleted) {
         setTestComplete(true);
         return toast.success(
@@ -36,6 +40,7 @@ export default function Quiz() {
       }
       return data;
     } catch (err) {
+      setLoading(false);
       return err;
     }
   };
@@ -170,6 +175,7 @@ export default function Quiz() {
           </Grid>
         </Box>
       </Container>
+      {loading ? <BackDropLoader /> : null}
     </div>
   );
 }
