@@ -21,6 +21,9 @@ export default function Login() {
       setCookie("token", data.token, 30);
       dispatch(setUser({ user: data.user }));
     },
+    onError: ({ response }) => {
+      return toast.error(response?.data?.data?.message);
+    },
   });
 
   const {

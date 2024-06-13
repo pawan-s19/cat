@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../utils/cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -19,14 +20,15 @@ export default function Register() {
       setCookie("token", data.token, 30);
       dispatch(setUser({ user: data.user }));
     },
+    onError: ({ response }) => {
+      return toast.error(response?.data?.message);
+    },
   });
 
   const submitHandler = (e) => {
     e.preventDefault();
     mutate({ email, password });
   };
-
-  if (isError) alert(error.response.data.message);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-500">
